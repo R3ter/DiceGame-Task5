@@ -15,18 +15,20 @@ const totalScore = document.getElementsByClassName("total");
 let afterRoll = [];
 let scoreNum = 0;
 window.addEventListener("mousedown", (e) => e.preventDefault());
+function degrees_to_radians(degrees) {
+  var pi = Math.PI;
+  return degrees * (pi / 180);
+}
+function radians_to_degrees(radians) {
+  var pi = Math.PI;
+  return radians * (180 / pi);
+}
 for (const container of document.getElementsByClassName("container")) {
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
+  const init = () => {
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
 
-  container.appendChild(renderer.domElement);
-  function degrees_to_radians(degrees) {
-    var pi = Math.PI;
-    return degrees * (pi / 180);
-  }
-  function radians_to_degrees(radians) {
-    var pi = Math.PI;
-    return radians * (180 / pi);
-  }
+    container.appendChild(renderer.domElement);
+  };
 
   const camera = new THREE.PerspectiveCamera(60, 1, 1, 500);
   camera.position.set(0, 0, 2);
