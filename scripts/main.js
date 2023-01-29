@@ -214,7 +214,6 @@ holdButt.addEventListener("click", () => {
   // plusEl.item(player).innerHTML = "+ " + scoreNum;
   totalScore.item(player).innerHTML =
     +totalScore.item(player).textContent + scoreNum;
-  console.log(parseInt(totalScore.item(player).textContent) + scoreNum);
   if (
     +maxScore <
     (parseInt(totalScore.item(player).textContent) + scoreNum) / 2
