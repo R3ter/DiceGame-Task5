@@ -96,11 +96,13 @@
         </ul>
         <div>
           <h2>Select target:</h2>
-          <input type="number" />
           <input
-            onclick="event.target.parentElement.parentElement.style.display='none';"
-            type="submit"
+            id="TextMax"
+            style="color: black"
+            onclick="select(event)"
+            type="number"
           />
+          <input onclick="setScore(event)" type="submit" />
         </div>
       </div>
     </section>

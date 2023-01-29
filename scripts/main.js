@@ -1,12 +1,13 @@
 let rolled = 0;
 let player = 0;
 let showed = false;
-
+let maxScore;
 const player1 = document.getElementById("player1");
 const player2 = document.getElementById("player2");
 const playingColor = getComputedStyle(player2).backgroundColor;
 const waitingColor = getComputedStyle(player1).backgroundColor;
 const rollButt = document.getElementById("RollButt");
+const TextMax = document.getElementById("TextMax");
 const holdButt = document.getElementById("hold");
 const currentScore = document.getElementsByClassName("currentScore");
 const plusEl = document.getElementsByClassName("plus");
@@ -207,11 +208,26 @@ for (const container of document.getElementsByClassName("container")) {
     e.target.disabled = true;
   });
 }
+
 holdButt.addEventListener("click", () => {
   if (showed) return;
   // plusEl.item(player).innerHTML = "+ " + scoreNum;
   totalScore.item(player).innerHTML =
     +totalScore.item(player).textContent + scoreNum;
+  console.log(parseInt(totalScore.item(player).textContent) + scoreNum);
+  if (
+    +maxScore <
+    (parseInt(totalScore.item(player).textContent) + scoreNum) / 2
+  ) {
+    alert("player " + (player ? 0 : 1) + " wins");
+    totalScore.item(player).innerHTML = 0;
+  } else if (
+    +maxScore ==
+    (parseInt(totalScore.item(player).textContent) + scoreNum) / 2
+  ) {
+    alert("player " + player + " wins");
+    totalScore.item(player).innerHTML = 0;
+  }
   scoreNum = 0;
   currentScore.item(player).children.item(1).innerHTML = 0;
   console.log(player);
@@ -223,5 +239,12 @@ holdButt.addEventListener("click", () => {
     player2.style.backgroundColor = playingColor;
     player1.style.backgroundColor = waitingColor;
   }
-  console.log(playingColor);
 });
+const setScore = (event) => {
+  event.target.parentElement.parentElement.style.display = "none";
+  console.log(TextMax.value);
+  maxScore = TextMax.value;
+};
+const select = (e) => {
+  e.target.select();
+};
