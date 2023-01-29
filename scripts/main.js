@@ -23,64 +23,25 @@ function radians_to_degrees(radians) {
   var pi = Math.PI;
   return radians * (180 / pi);
 }
+const showDice = (animationValTo, animationVal) => {
+  showed = true;
+  const myTween = new TWEEN.Tween(animationValTo)
+    .to({
+      cubeOpacity: animationVal.cubeOpacity,
+    })
+    .easing(TWEEN.Easing.Quadratic.Out);
+  myTween.start();
+};
+const hideDice = (animationValTo) => {
+  showed = false;
+  const myTween = new TWEEN.Tween(animationValTo)
+    .to({
+      cubeOpacity: 0,
+    })
+    .easing(TWEEN.Easing.Quadratic.Out);
+  myTween.start();
+};
 for (const container of document.getElementsByClassName("container")) {
-  const init = () => {
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
-
-    container.appendChild(renderer.domElement);
-  };
-
-  const camera = new THREE.PerspectiveCamera(60, 1, 1, 500);
-  camera.position.set(0, 0, 2);
-  camera.lookAt(0, 0, 0);
-
-  const textureLoader = new THREE.TextureLoader();
-  const texture1 = textureLoader.load("./../Textures/dice-1.png");
-  const texture2 = textureLoader.load("./../Textures/dice-2.png");
-  const texture3 = textureLoader.load("./../Textures/dice-3.png");
-  const texture4 = textureLoader.load("./../Textures/dice-4.png");
-  const texture5 = textureLoader.load("./../Textures/dice-5.png");
-  const texture6 = textureLoader.load("./../Textures/dice-6.png");
-
-  const materials = [
-    new THREE.MeshLambertMaterial({ map: texture1 }),
-    new THREE.MeshLambertMaterial({ map: texture2 }),
-    new THREE.MeshLambertMaterial({ map: texture3 }),
-    new THREE.MeshLambertMaterial({ map: texture4 }),
-    new THREE.MeshLambertMaterial({ map: texture5 }),
-    new THREE.MeshLambertMaterial({ map: texture6 }),
-  ];
-
-  const scene = new THREE.Scene();
-  const light = new THREE.PointLight(0xffffff, 1);
-  light.position.set(0, 0, 50);
-  scene.add(light);
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  // const material = new THREE.MultiMaterial(materials);
-  const cube = new THREE.Mesh(geometry, materials);
-  // setTimeout(()=>{cube.},100,100)
-  const val = new Map();
-
-  val.set("y" + 0 + "x" + 0, 5);
-  val.set("y" + 90 + "x" + 0, 2);
-  val.set("y" + 180 + "x" + 0, 6);
-  val.set("y" + 270 + "x" + 0, 1);
-  val.set("y" + 0 + "x" + 90, 3);
-  val.set("y" + 0 + "x" + 180, 6);
-  val.set("y" + 0 + "x" + 270, 4);
-  val.set("y" + 90 + "x" + 90, 3);
-
-  val.set("y" + 180 + "x" + 90, 3);
-  val.set("y" + 270 + "x" + 90, 3);
-  val.set("y" + 90 + "x" + 180, 1);
-  val.set("y" + 180 + "x" + 180, 5);
-  val.set("y" + 270 + "x" + 180, 2);
-  val.set("y" + 90 + "x" + 270, 4);
-  val.set("y" + 180 + "x" + 270, 4);
-  val.set("y" + 270 + "x" + 270, 4);
-
-  scene.add(cube);
-  renderer.render(scene, camera);
   const animationVal = {
     scoreSize: 0,
     cubePos: { x: container.style.left, y: container.style.top },
@@ -91,6 +52,67 @@ for (const container of document.getElementsByClassName("container")) {
     cubePos: { x: 0, y: 0 },
     cubeOpacity: 0,
   };
+  let isRolling = false;
+  const init = () => {
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+
+    container.appendChild(renderer.domElement);
+
+    const camera = new THREE.PerspectiveCamera(60, 1, 1, 500);
+    camera.position.set(0, 0, 2);
+    camera.lookAt(0, 0, 0);
+
+    const textureLoader = new THREE.TextureLoader();
+    const texture1 = textureLoader.load("./../Textures/dice-1.png");
+    const texture2 = textureLoader.load("./../Textures/dice-2.png");
+    const texture3 = textureLoader.load("./../Textures/dice-3.png");
+    const texture4 = textureLoader.load("./../Textures/dice-4.png");
+    const texture5 = textureLoader.load("./../Textures/dice-5.png");
+    const texture6 = textureLoader.load("./../Textures/dice-6.png");
+
+    const materials = [
+      new THREE.MeshLambertMaterial({ map: texture1 }),
+      new THREE.MeshLambertMaterial({ map: texture2 }),
+      new THREE.MeshLambertMaterial({ map: texture3 }),
+      new THREE.MeshLambertMaterial({ map: texture4 }),
+      new THREE.MeshLambertMaterial({ map: texture5 }),
+      new THREE.MeshLambertMaterial({ map: texture6 }),
+    ];
+
+    const scene = new THREE.Scene();
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(0, 0, 50);
+    scene.add(light);
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const cube = new THREE.Mesh(geometry, materials);
+    scene.add(cube);
+    renderer.render(scene, camera);
+    render();
+    return { cube, camera };
+  };
+
+  const DiceValues = () => {
+    const val = new Map();
+    val.set("y" + 0 + "x" + 0, 5);
+    val.set("y" + 90 + "x" + 0, 2);
+    val.set("y" + 180 + "x" + 0, 6);
+    val.set("y" + 270 + "x" + 0, 1);
+    val.set("y" + 0 + "x" + 90, 3);
+    val.set("y" + 0 + "x" + 180, 6);
+    val.set("y" + 0 + "x" + 270, 4);
+    val.set("y" + 90 + "x" + 90, 3);
+
+    val.set("y" + 180 + "x" + 90, 3);
+    val.set("y" + 270 + "x" + 90, 3);
+    val.set("y" + 90 + "x" + 180, 1);
+    val.set("y" + 180 + "x" + 180, 5);
+    val.set("y" + 270 + "x" + 180, 2);
+    val.set("y" + 90 + "x" + 270, 4);
+    val.set("y" + 180 + "x" + 270, 4);
+    val.set("y" + 270 + "x" + 270, 4);
+    return val;
+  };
+
   function render() {
     requestAnimationFrame(render);
     TWEEN.update();
@@ -100,25 +122,7 @@ for (const container of document.getElementsByClassName("container")) {
     container.style.opacity = animationValTo.cubeOpacity;
     renderer.render(scene, camera);
   }
-  let isRolling = false;
-  const showDice = () => {
-    showed = true;
-    const myTween = new TWEEN.Tween(animationValTo)
-      .to({
-        cubeOpacity: animationVal.cubeOpacity,
-      })
-      .easing(TWEEN.Easing.Quadratic.Out);
-    myTween.start();
-  };
-  const hideDice = () => {
-    showed = false;
-    const myTween = new TWEEN.Tween(animationValTo)
-      .to({
-        cubeOpacity: 0,
-      })
-      .easing(TWEEN.Easing.Quadratic.Out);
-    myTween.start();
-  };
+
   const rollDice = (x, y, z) => {
     if (isRolling || !showed) return;
     isRolling = true;
