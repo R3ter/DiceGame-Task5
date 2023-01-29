@@ -1,0 +1,111 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice game</title>
+    <link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="path/to/font-awesome/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="./css/MainPage.css" />
+  </head>
+  <body>
+    <section class="main" style="position: relative">
+      <!-- <div class="players"> -->
+      <div id="player1">
+        <div class="playerInfo">
+          <div>player 1</div>
+          <div class="total">0</div>
+        </div>
+        <h1 class="plus"></h1>
+        <div class="currentScore">
+          <p>Current</p>
+          <p>0</p>
+        </div>
+      </div>
+      <div id="player2">
+        <div class="playerInfo">
+          <div>player 2</div>
+          <div class="total">0</div>
+        </div>
+        <h1 class="plus"></h1>
+
+        <div class="currentScore">
+          <p>Current</p>
+          <p>0</p>
+        </div>
+      </div>
+      <div class="middleItems">
+        <button>new game</button>
+        <div
+          style="
+            display: flex;
+            width: 15vw;
+            height: 15vw;
+            margin: auto;
+            flex-direction: column;
+            justify-content: center;
+          "
+        >
+          <div
+            class="container"
+            style="opacity: 1; width: 80%; height: 80%; margin: auto"
+          ></div>
+        </div>
+        <div
+          style="
+            display: flex;
+            position: relative;
+            width: 15vw;
+            height: 15vw;
+            margin: auto;
+            flex-direction: column;
+            justify-content: center;
+          "
+        >
+          <div
+            class="container"
+            style="opacity: 1; width: 80%; height: 80%; margin: auto"
+          ></div>
+        </div>
+        <button id="RollButt">⚄ roll dice</button>
+        <button id="hold">HOLD</button>
+      </div>
+      <div
+        style="
+          position: absolute;
+          width: 90%;
+          height: 80%;
+          background-image: linear-gradient(
+            rgb(197, 12, 197),
+            rgb(77, 48, 105)
+          );
+          border-radius: 30px;
+          border: 10px rgb(99, 24, 68) solid;
+        "
+      >
+        <h2>Game Instructions</h2>
+        <ul>
+          <li>Roll with the dice with ur mouse its not an image</li>
+        </ul>
+        <div>
+          <h2>Select target:</h2>
+          <input type="number" />
+          <input
+            onclick="event.target.parentElement.parentElement.style.display='none';"
+            type="submit"
+          />
+        </div>
+      </div>
+    </section>
+    <script src="./scripts/Three.min.js"></script>
+    <script src="./scripts/tween.js"></script>
+    <script src="./scripts/main.js"></script>
+  </body>
+</html>
